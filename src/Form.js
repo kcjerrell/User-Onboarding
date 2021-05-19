@@ -15,8 +15,13 @@ const Form = props => {
 		change(name, valueToUse);
 	};
 
+	const onSubmit = e => {
+		e.preventDefault();
+		submit();
+	}
+
 	return (
-		<StyledForm submit={submit}>
+		<StyledForm onSubmit={onSubmit}>
 			<label>Name
 				<input type="text" name="name" value={formData.name} onChange={onChange} />
 			</label>
