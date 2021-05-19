@@ -1,23 +1,59 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
+import Form from './Form';
+import * as yup from 'yup';
+import schema from './formSchema';
+
+const initialUsers = [];
+const initialFormData = {
+  name: '',
+  email: '',
+  password: '',
+  tosAgreement: false,
+}
+const initialFormErrors = {
+  name: '',
+  email: '',
+  password: '',
+  tosAgreement: '',
+}
+const initialSubmitDisabled = true;
 
 function App() {
+  const [users, setUsers] = useState(initialUsers);
+  const [formData, setFormData] = useState(initialFormData);
+  const [formErrors, setFormErrors] = useState(initialFormErrors);
+  const [submitDisabled, setSubmitDisabled] = useState(initialSubmitDisabled);
+
+  useEffect(() => {
+    schema.isValid(formData).then(valid => setSubmitDisabled(!valid));
+  }, [formData])
+
+  const validate = (name, value) => {
+    yup.reach(schema, name)
+      .validate(value)
+      .then(() => setFormErrors({ ...formErrors, [name]: '' }))
+      .catch((error) => setFormErrors({ ...formErrors, [name]: error.errors[0] }));
+  }
+
+  const inputChange = (name, value) => {
+    validate(name, value);
+    setFormData({
+      ...formData,
+      [name]: value,
+    })
+  };
+
+  const formSubmit = e => {
+
+  };
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        User Onboarding
       </header>
+      <Form formData={formData} formErrors={formErrors} submitDisabled={submitDisabled} change={inputChange} submit={formSubmit} />
     </div>
   );
 }
