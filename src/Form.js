@@ -34,7 +34,7 @@ const Form = props => {
 			<label>Agree to Terms of Service
 				<input type="checkbox" name="tosAgreement" checked={formData.tosAgreement} onChange={onChange} />
 			</label>
-			<button disabled={submitDisabled}>Submit</button>
+			<button disabled={submitDisabled} name='submit'>Submit</button>
 			<div>
 				<div>{formErrors.name}</div>
 				<div>{formErrors.email}</div>

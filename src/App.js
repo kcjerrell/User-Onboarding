@@ -68,7 +68,7 @@ function App() {
       <Form formData={formData} formErrors={formErrors} submitDisabled={submitDisabled} change={inputChange} submit={formSubmit} />
 
       {users.length > 0 &&
-        <table>
+        <table name='usersTable'>
           <thead>
             <tr>
               <th>id</th>
@@ -82,8 +82,8 @@ function App() {
           <tbody>
             {users.map(user => {
               return (
-                <tr>
-                  <td>{user.id}</td>
+                <tr key={user.id}>
+                  <td >{user.id}</td>
                   <td>{user.name}</td>
                   <td>{user.email}</td>
                   <td>**********</td>
